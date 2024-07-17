@@ -28,15 +28,13 @@ class _QuizState extends State<Quiz> {
         setState(() {
           activeScreen = 'results_screen';
         });
-      }
-      else {
+      } else {
         setState(() {
           selectedAnswers = [];
           activeScreen = 'start_screen';
         });
       }
-    }
-    if (activeScreen == 'start_screen') {
+    } else if (activeScreen == 'start_screen') {
       setState(() {
         activeScreen = 'questions_screen';
       });
@@ -51,17 +49,18 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(context) {
-    Widget screenWidget = StartScreen(switchScreen);
+    Widget screenWidget;
 
     if (activeScreen == 'questions_screen') {
-      screenWidget = QuestionsScreen(
-        onSelectAnswer: chooseAnswer,
+      screenWidget = QuestionsScreen(onSelectAnswer: chooseAnswer);
+    } else if (activeScreen == 'results_screen') {
+      screenWidget = ResultsScreen(
+        onRestart: switchScreen,
+        chosenAnswers: selectedAnswers,
       );
-    }
-    if (activeScreen == 'start_screen') {
+    } else {
       screenWidget = StartScreen(switchScreen);
     }
-    else {screenWidget = ResultsScreen(switchScreen);}
 
     return MaterialApp(
       home: Scaffold(
