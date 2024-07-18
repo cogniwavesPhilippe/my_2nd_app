@@ -16,7 +16,7 @@ class ResultsScreen extends StatelessWidget {
         'question_index': i,
         'question': questions[i].text,
         'correct_answer': questions[i].answers[0],
-        'user_answer': chosenAnswers[0]
+        'user_answer': chosenAnswers[i]
       });
     }
 
@@ -25,6 +25,17 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build (context) {
+    final numQuestions = questions.length.toString();
+
+    var correctAnswers = 0;
+
+    for (var i = 0; i < questions.length; i++) {
+      if (chosenAnswers[i] == questions[i].answers[0]) {
+        correctAnswers += 1;
+      }
+    }
+    final correctAnswersString = correctAnswers.toString();
+
     return SizedBox(
       width: double.infinity,
       child: Container(
@@ -33,7 +44,7 @@ class ResultsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('You asnwer x questions correctly'),
+            Text('You asnwered $correctAnswersString questions correctly out of $numQuestions'),
             const SizedBox(height: 30,),
             QuestionsSummary(getSummaryData()),
             const SizedBox(height: 30,),
